@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}قائمة المستخدمين{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>📋 قائمة المستخدمين</h2>
+    <a href="{% url 'add_user' %}" class="btn">➕ إضافة مستخدم جديد</a>
+</div>
+
+{% if users %}
+<table>
+    <thead>
+        <tr>
+            <th>الرقم</th>
+            <th>اسم المستخدم</th>
+            <th>البريد الإلكتروني</th>
+            <th>تاريخ الإنشاء</th>
+            <th>الإجراءات</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td><strong>{{ user.username }}</strong></td>
+            <td>{{ user.email|default:"غير محدد" }}</td>
+            <td>{{ user.created_at|date:"Y-m-d H:i" }}</td>
+            <td>
+                <a href="{% url 'delete_user' user.id %}" 
+                   class="btn btn-danger" 
+                   onclick="return confirm('هل أنت متأكد من حذف المستخدم {{ user.username }}؟')">
+                    🗑️ حذف
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 8px; border-right: 4px solid #667eea;">
+    <strong>📊 الإحصائيات:</strong> إجمالي عدد المستخدمين: <strong>{{ users.count }}</strong>
+</div>
+
+{% else %}
+<div style="text-align: center; padding: 60px; background: #f8f9fa; border-radius: 8px;">
+    <h3 style="color: #6c757d; margin-bottom: 20px;">📭 لا توجد مستخدمين حالياً</h3>
+    <a href="{% url 'add_user' %}" class="btn">➕ إضافة أول مستخدم</a>
+</div>
+{% endif %}
+{% endblock %}
