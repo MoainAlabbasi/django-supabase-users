@@ -28,6 +28,10 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
+# إعدادات CSRF للاستضافة
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-supabase-users-production.up.railway.app',
+]
 
 # Application definition
 
